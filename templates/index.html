@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Billing Application</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Billing Application</h1>
+        <form action="{{ url_for('generate_bill') }}" method="post">
+            <label for="customer_name">Customer Name:</label>
+            <input type="text" id="customer_name" name="customer_name" required>
+            <table>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item['name'] }}</td>
+                    <td>₹{{ item['price'] }}</td>
+                    <td>
+                        <input type="hidden" name="item" value="{{ item['name'] }}">
+                        <input type="number" name="quantity" min="0" value="0">
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <button type="submit">Generate Bill</button>
+        </form>
+        <p>
+            <a href="{{ url_for('manage_items') }}">Manage Items</a> |
+            <a href="{{ url_for('report') }}">View Monthly Report</a>
+        </p>
+    </div>
+</body>
+</html>
+
